@@ -1,0 +1,18 @@
+{
+  "name": "inquirer-dressed",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "claunch TUI prototype — inquirer + boxen + gradient-string",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.0",
+    "boxen": "^8.0.0",
+    "chalk": "^5.0.0",
+    "gradient-string": "^3.0.0"
+  }
+}
