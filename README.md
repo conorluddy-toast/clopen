@@ -1,13 +1,13 @@
-# claunch
+# clopen
 
-Interactive launcher for [Claude Code](https://claude.com/claude-code). Pick a saved preset or step through a curated set of flags, then `claunch` spawns `claude` with the right arguments and env vars.
+Interactive launcher for [Claude Code](https://claude.com/claude-code). Pick a saved preset or step through a curated set of flags, then `clopen` spawns `claude` with the right arguments and env vars.
 
 No more remembering flag names. No more typing `--model opus --permission-mode acceptEdits --effort high` every session.
 
 ## Install
 
 ```bash
-npm install -g claunch
+npm install -g clopen
 ```
 
 Requires Node >= 18 and `claude` on your `PATH`.
@@ -17,11 +17,11 @@ Requires Node >= 18 and `claude` on your `PATH`.
 ### Interactive (no args)
 
 ```bash
-claunch
+clopen
 ```
 
 ```
-  claunch
+  clopen
 
 ? What would you like to do?
 > Launch with a preset
@@ -33,27 +33,27 @@ claunch
 ### Launch a saved preset
 
 ```bash
-claunch --preset power
+clopen --preset power
 ```
 
 ### Inline flags (skip the menu)
 
 ```bash
-claunch --model opus --effort high
-claunch --model sonnet "fix the auth bug"
+clopen --model opus --effort high
+clopen --model sonnet "fix the auth bug"
 ```
 
 ### Preset management
 
 ```bash
-claunch --list-presets
-claunch --export-presets ~/backup.json
-claunch --import-presets ~/shared.json
+clopen --list-presets
+clopen --export-presets ~/backup.json
+clopen --import-presets ~/shared.json
 ```
 
 ## Starter presets
 
-Seeded on first run at `~/.config/claunch/presets.json`:
+Seeded on first run at `~/.config/clopen/presets.json`:
 
 | Name         | Description                | Flags                                                     |
 |--------------|----------------------------|-----------------------------------------------------------|
@@ -66,7 +66,7 @@ Create your own via the **Customize** flow — after stepping through the flags,
 
 ## Curated flag set
 
-claunch exposes the flags that matter day-to-day, grouped into **Core → Session → Output → Advanced**. The wizard walks the categories in order and skips flags that only make sense when `--print` is enabled.
+clopen exposes the flags that matter day-to-day, grouped into **Core → Session → Output → Advanced**. The wizard walks the categories in order and skips flags that only make sense when `--print` is enabled.
 
 | Category  | Flags                                                                                |
 |-----------|--------------------------------------------------------------------------------------|
@@ -82,18 +82,18 @@ Most flags map to `--arg` passthrough. `effort` routes through the `ANTHROPIC_EF
 Presets live at:
 
 ```
-~/.config/claunch/presets.json
+~/.config/clopen/presets.json
 ```
 
-(Or `$XDG_CONFIG_HOME/claunch/presets.json` if set.)
+(Or `$XDG_CONFIG_HOME/clopen/presets.json` if set.)
 
 The file is plain JSON — safe to hand-edit, export, and share.
 
 ## Develop
 
 ```bash
-git clone https://github.com/conorluddy/claunch.git
-cd claunch
+git clone https://github.com/conorluddy/clopen.git
+cd clopen
 npm install
 npm run build
 node dist/index.js

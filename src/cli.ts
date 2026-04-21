@@ -44,7 +44,7 @@ export const buildProgram = (): Command => {
   const program = new Command();
 
   program
-    .name("claunch")
+    .name("clopen")
     .description("Interactive launcher for Claude Code")
     .version("0.1.0")
     .option("-p, --preset <name>", "launch using a saved preset")

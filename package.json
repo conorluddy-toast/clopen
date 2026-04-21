@@ -1,10 +1,10 @@
 {
-  "name": "claunch",
+  "name": "clopen",
   "version": "0.1.0",
   "description": "Interactive launcher for Claude Code — pick a preset or customise flags, then spawn claude.",
   "type": "module",
   "bin": {
-    "claunch": "./dist/index.js"
+    "clopen": "./dist/index.js"
   },
   "files": [
     "dist"
