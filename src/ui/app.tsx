@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Box, Text, useApp, useInput } from "ink";
 import { renderLogo } from "./logo.js";
-import type { Preset } from "../types.js";
+import { buildLaunchSpec } from "../flags.js";
+import type { ClaudeFlags, Preset } from "../types.js";
 
 export type MenuChoice =
   | { kind: "preset"; preset: Preset }
@@ -19,6 +20,13 @@ interface Props {
   defaultPreset?: string;
   onChoose: (choice: MenuChoice) => void;
 }
+
+const renderLaunchLine = (flags: ClaudeFlags): string => {
+  const { argv, env } = buildLaunchSpec(flags);
+  const envPart = Object.entries(env).map(([k, v]) => `${k}=${v}`).join(" ");
+  const prefix = envPart ? `${envPart} ` : "";
+  return `$ ${prefix}claude ${argv.join(" ")}`.trim();
+};
 
 const flagSummary = (preset: Preset): string => {
   const f = preset.flags;
@@ -82,12 +90,16 @@ export const App: React.FC<Props> = ({ presets, defaultPreset, onChoose }) => {
     }
   });
 
+  const focused = rows[index];
+  const focusedPreset = focused.kind === "preset" ? focused.preset : undefined;
+
   return (
     <Box flexDirection="column">
       <Box marginBottom={1}>
         <Text>{renderLogo()}</Text>
       </Box>
-      <Box flexDirection="column">
+      <Box flexDirection="row">
+      <Box flexDirection="column" width={36} marginRight={2}>
         {rows.map((row, i) => {
           if (row.kind === "separator") {
             return (
@@ -122,6 +134,34 @@ export const App: React.FC<Props> = ({ presets, defaultPreset, onChoose }) => {
             </Box>
           );
         })}
+      </Box>
+      <Box flexDirection="column" flexGrow={1} borderStyle="round" borderColor="gray" paddingX={1}>
+        {focusedPreset ? (
+          <>
+            <Box marginBottom={1}>
+              <Text bold color="cyan">{focusedPreset.name}</Text>
+              {focusedPreset.description ? (
+                <Text dimColor>  {focusedPreset.description}</Text>
+              ) : null}
+            </Box>
+            <Box marginBottom={1}>
+              <Text dimColor>flags:</Text>
+            </Box>
+            {Object.entries(focusedPreset.flags).map(([key, value]) => (
+              <Box key={key}>
+                <Text color="yellow">{key}</Text>
+                <Text dimColor>: </Text>
+                <Text color="green">{String(value)}</Text>
+              </Box>
+            ))}
+            <Box marginTop={1}>
+              <Text dimColor>{renderLaunchLine(focusedPreset.flags)}</Text>
+            </Box>
+          </>
+        ) : (
+          <Text dimColor>Select a preset to see its flags and launch command.</Text>
+        )}
+      </Box>
       </Box>
       <Box marginTop={1}>
         <Text dimColor>↑↓ select · enter launch · q quit</Text>
