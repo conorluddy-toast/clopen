@@ -49,6 +49,7 @@ export interface Preset {
 export interface PresetsFile {
   version: 1;
   presets: Preset[];
+  defaultPreset?: string;
 }
 
 export interface LaunchSpec {

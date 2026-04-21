@@ -39,7 +39,7 @@ export const ensurePresetsFile = async (): Promise<PresetsFile> => {
   const path = presetsPath();
   if (!existsSync(path)) {
     await mkdir(configDir(), { recursive: true });
-    const seed: PresetsFile = { version: 1, presets: STARTER_PRESETS };
+    const seed: PresetsFile = { version: 1, presets: STARTER_PRESETS, defaultPreset: "quick" };
     await writeFile(path, JSON.stringify(seed, null, 2), "utf8");
     return seed;
   }
@@ -81,6 +81,16 @@ export const deletePreset = async (name: string): Promise<boolean> => {
   const before = file.presets.length;
   file.presets = file.presets.filter((p) => p.name !== name);
   if (file.presets.length === before) return false;
+  if (file.defaultPreset === name) file.defaultPreset = file.presets[0]?.name;
   await writePresets(file);
   return true;
+};
+
+export const setDefaultPreset = async (name: string): Promise<void> => {
+  const file = await readPresets();
+  if (!file.presets.some((p) => p.name === name)) {
+    throw new Error(`No preset named '${name}'.`);
+  }
+  file.defaultPreset = name;
+  await writePresets(file);
 };
